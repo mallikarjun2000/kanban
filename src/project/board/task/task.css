@@ -1,0 +1,16 @@
+.task {
+	max-width: 350px;
+	margin: 5px;
+	text-align: start;
+	min-height: 80px;
+	display: flex;
+	flex-direction: column;
+}
+
+.task .ant-card-body {
+	padding: 10px;
+}
+
+.task .task-title {
+	font-weight: 400;
+}
