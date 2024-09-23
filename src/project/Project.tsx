@@ -3,23 +3,28 @@ import { BoardComponent } from "./board/board";
 import { ProjectDetails } from "./ProjectDetails";
 import { mockProjectDetails$ } from "../utils/project.utils";
 import { IProject } from "../models/models";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 export function ProjectComponent() {
-	let mockPDetails: IProject = {} as any;
+	const [project, setProject]: any = useState({});
+	const [tasks, setTasks]: any = useState();
 
 	useEffect(() => {
-		mockProjectDetails$.then((project: any) => {
-			mockPDetails = project;
+		mockProjectDetails$.then((project: IProject) => {
+			setProject(project);
+			setTasks(project.tasks);
 		});
 	}, []);
 
 	return (
 		<>
 			<BrowserRouter>
-				<ProjectDetails project={mockPDetails} />
+				<ProjectDetails project={project} />
 				<Routes>
-					<Route path='/' Component={() => <BoardComponent />} />
+					<Route
+						path='/'
+						Component={() => <BoardComponent tasks={tasks} />}
+					/>
 				</Routes>
 			</BrowserRouter>
 		</>

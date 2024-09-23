@@ -1,0 +1,11 @@
+.filter-container {
+	min-width: "200px";
+	padding: 10px;
+	text-align: right;
+}
+
+.filter {
+	margin-left: 10px;
+	min-width: 120px;
+	text-align: left;
+}

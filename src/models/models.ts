@@ -9,7 +9,7 @@ export interface IProject {
 	project_name: string;
 	project_id: string;
 	users: IUser[];
-	creation: Date;
+	creation_date: Date;
 	tasks?: ITask[];
 }
 
@@ -17,7 +17,7 @@ export interface ITask {
 	task_number: number;
 	title: string;
 	assigned_to: IUser;
-	status: TAST_STATUS;
+	status: TASK_BOARD;
 	created_time: Date;
 	tags: string[];
 	time_to_complete: number;
