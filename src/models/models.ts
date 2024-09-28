@@ -10,7 +10,7 @@ export interface IProject {
 	project_id: string;
 	users: IUser[];
 	creation_date: Date;
-	tasks?: ITask[];
+	tasks: ITask[];
 }
 
 export interface ITask {

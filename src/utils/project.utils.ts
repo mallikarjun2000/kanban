@@ -10,7 +10,7 @@ export const mockUsers: IUser[] = [
 
 export const mockTasks: ITask[] = [
 	{
-		task_number: 445342,
+		task_number: 445341,
 		title: "To start with implementation",
 		assigned_to: {
 			user_email: "John.Doe@gmail.com",
@@ -40,7 +40,7 @@ export const mockTasks: ITask[] = [
 		time_to_complete: 1,
 	},
 	{
-		task_number: 445342,
+		task_number: 445343,
 		title: "Set up initial Project and folders",
 		assigned_to: {
 			user_email: "John.Doe@gmail.com",
@@ -55,6 +55,14 @@ export const mockTasks: ITask[] = [
 		time_to_complete: 1,
 	},
 ];
+
+export const mockProjectDetails = {
+	project_name: "Kanban Board",
+	project_id: "452112",
+	users: mockUsers,
+	creation_date: new Date(),
+	tasks: mockTasks,
+};
 
 export const mockProjectDetails$ = new Promise<IProject>((resolve, reject) => {
 	setTimeout(() => {

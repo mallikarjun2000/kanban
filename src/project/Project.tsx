@@ -1,8 +1,8 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { BoardComponent } from "./board/board";
 import { ProjectDetails } from "./ProjectDetails";
-import { mockProjectDetails$ } from "../utils/project.utils";
-import { IProject } from "../models/models";
+import { mockProjectDetails } from "../utils/project.utils";
+// import { IProject, ITask } from "../models/models";
 import { useEffect, useState } from "react";
 
 export function ProjectComponent() {
@@ -10,10 +10,8 @@ export function ProjectComponent() {
 	const [tasks, setTasks]: any = useState();
 
 	useEffect(() => {
-		mockProjectDetails$.then((project: IProject) => {
-			setProject(project);
-			setTasks(project.tasks);
-		});
+		setProject({ ...mockProjectDetails });
+		setTasks([...mockProjectDetails.tasks]);
 	}, []);
 
 	return (
