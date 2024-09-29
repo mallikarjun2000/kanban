@@ -10,6 +10,22 @@ export function BoardComponent({ tasks }: { tasks: ITask[] }) {
 	const [inProgressTasks, setInProgressTasks]: any = useState();
 	const [doneTasks, setDoneTasks]: any = useState();
 	const [masterList, setMasterList]: any = useState();
+	const [tags, setTags] = useState<string[]>([]);
+
+	useEffect(() => {
+		separateTaskByStatus(tasks);
+		setMasterList(tasks);
+		const tagsSet = new Set<string>();
+		tasks?.forEach((task) => {
+			task?.tags?.forEach((tag) => tagsSet.add(tag));
+		});
+		setTags(Array.from(tagsSet));
+	}, []);
+
+	useEffect(() => {
+		console.log(newTasks, inProgressTasks, doneTasks, tags, "re-rendered");
+	});
+
 	function separateTaskByStatus(list: any) {
 		if (list?.length) {
 			setNewTasks(
@@ -25,14 +41,48 @@ export function BoardComponent({ tasks }: { tasks: ITask[] }) {
 			);
 		}
 	}
-	useEffect(() => {
-		separateTaskByStatus(tasks);
-		setMasterList(tasks);
-	}, []);
 
-	useEffect(() => {
-		console.log(newTasks, inProgressTasks, doneTasks, "re-rendered");
-	});
+	function updateFilterBy(filterItems: string[], filterKey: string) {
+		let originalTasks = [...tasks];
+		switch (filterKey) {
+			case "tag": {
+				if (!filterItems.length) {
+					separateTaskByStatus(tasks);
+					return;
+				}
+				let tas = [];
+				for (let filterItem of filterItems) {
+					tas.push(
+						originalTasks.filter((task: ITask) =>
+							task.tags.includes(filterItem)
+						)[0]
+					);
+				}
+				separateTaskByStatus(tas);
+				break;
+			}
+			case "user": {
+				let originalTasks = [...tasks];
+				if (!filterItems.length) {
+					separateTaskByStatus(originalTasks);
+					return;
+				}
+				const selectedTasks = [];
+				for (let name of filterItems) {
+					for (let task of originalTasks) {
+						if (task.assigned_to.user_name === name) {
+							selectedTasks.push(task);
+						}
+					}
+				}
+				separateTaskByStatus(selectedTasks);
+				break;
+			}
+			default: {
+				return;
+			}
+		}
+	}
 
 	// ------------------------------- SECTION TOBE INVESTIGATED ---------------------- //
 
@@ -102,7 +152,11 @@ export function BoardComponent({ tasks }: { tasks: ITask[] }) {
 
 	return (
 		<div>
-			<FilterComponent users={mockUsers} tags={["UI"]} />
+			<FilterComponent
+				users={mockUsers}
+				tags={tags}
+				updateFilterBy={updateFilterBy}
+			/>
 			<section className='board-view'>
 				<StatusColumnComponent
 					status={TASK_BOARD.NEW}

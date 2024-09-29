@@ -13,43 +13,32 @@ import { IUser, TASK_BOARD } from "../../../models/models";
 export function FilterComponent({
 	users = [],
 	tags = [],
+	updateFilterBy,
 }: {
 	users: IUser[];
 	tags: string[];
+	updateFilterBy: Function;
 }) {
-	const renderUserOptions = () => {
-		return users.map((user) => {
-			return { value: user.user_name };
-		});
-	};
-	const renderStatusOptions = () => {
-		return Object.values(TASK_BOARD).map((status: string) => {
-			return { value: status };
-		});
-	};
-	const renderTagOptions = () => {
-		return tags.map((tag) => {
-			return { value: tag };
-		});
-	};
 	function handleChange(event: any, name: string) {
-		// alert(event);
+		console.log(event, name, "changed");
+		updateFilterBy(event, name);
 	}
 
 	function handleBlur(event: any, name: string) {
-		// alert(event.toString());
+		// console.log(event, name, "onBlur");
 	}
 
 	function handleClear(name: string) {
-		// alert(name);
+		// console.log(name, "clear");
 	}
 	return (
 		<Card className='filter-container'>
 			<span>Filter By</span>
 			<Select
+				title='Title Brp'
 				className='filter'
 				mode='multiple'
-				options={renderUserOptions()}
+				options={renderUserOptions(users)}
 				onChange={(e) => handleChange(e, "user")}
 				onBlur={(e) => handleBlur(e, "user")}
 				onClear={() => handleClear("user")}
@@ -69,8 +58,24 @@ export function FilterComponent({
 				placeholder='Select Tag'
 				onChange={(e) => handleChange(e, "tag")}
 				onBlur={(e) => handleBlur(e, "tag")}
-				options={renderTagOptions()}
+				options={renderTagOptions(tags)}
 			/>
 		</Card>
 	);
 }
+
+const renderUserOptions = (users: any) => {
+	return users.map((user: any, index: number) => {
+		return { value: user.user_name };
+	});
+};
+const renderStatusOptions = () => {
+	return Object.values(TASK_BOARD).map((status: string) => {
+		return { value: status };
+	});
+};
+const renderTagOptions = (tags: string[]) => {
+	return tags.map((tag: string) => {
+		return { value: tag };
+	});
+};

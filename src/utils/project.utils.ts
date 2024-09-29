@@ -6,6 +6,16 @@ export const mockUsers: IUser[] = [
 		user_name: "John Doe",
 		user_id: 22345,
 	},
+	{
+		user_email: "Jessy.pinkman@gmail.com",
+		user_name: "Jessy pinkman",
+		user_id: 123,
+	},
+	{
+		user_email: "michael.klark@gmail.com",
+		user_name: "Michael Klark",
+		user_id: 123,
+	},
 ];
 
 export const mockTasks: ITask[] = [
@@ -13,8 +23,8 @@ export const mockTasks: ITask[] = [
 		task_number: 445341,
 		title: "To start with implementation",
 		assigned_to: {
-			user_email: "John.Doe@gmail.com",
-			user_name: "John Doe",
+			user_email: "Jessy.pinkman@gmail.com",
+			user_name: "Jessy pinkman",
 			user_id: 123,
 		},
 		created_time: new Date(),
@@ -36,22 +46,22 @@ export const mockTasks: ITask[] = [
 		priority: 1,
 		project_id: "foodx23411",
 		status: TASK_BOARD.IN_PROGRESS,
-		tags: ["analysis", "#UI"],
+		tags: ["ReactJs", "#UI"],
 		time_to_complete: 1,
 	},
 	{
 		task_number: 445343,
 		title: "Set up initial Project and folders",
 		assigned_to: {
-			user_email: "John.Doe@gmail.com",
-			user_name: "John Doe",
+			user_email: "michael.klark@gmail.com",
+			user_name: "Michael Klark",
 			user_id: 123,
 		},
 		created_time: new Date(),
 		priority: 1,
 		project_id: "foodx23411",
 		status: TASK_BOARD.DONE,
-		tags: ["analysis", "#UI"],
+		tags: ["Angular", "#UI"],
 		time_to_complete: 1,
 	},
 ];
