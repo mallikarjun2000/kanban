@@ -2,15 +2,25 @@ import { FilterComponent } from "./filter/filter";
 import { StatusColumnComponent } from "./StatusColumn/StatusColumn";
 import "./board.css";
 import { ITask, TASK_BOARD } from "../../models/models";
-import { mockUsers } from "../../utils/project.utils";
+import { mockProjectDetails, mockUsers } from "../../utils/project.utils";
 import { useEffect, useState } from "react";
+import { FloatButton } from "antd";
+import { PlusOutlined } from "@ant-design/icons";
+import { TaskDetailsModalComponent } from "./taskDetailsModal/task-details-modal";
 
-export function BoardComponent({ tasks }: { tasks: ITask[] }) {
+export function BoardComponent({
+	tasks,
+	projectId,
+}: {
+	tasks: ITask[];
+	projectId: string;
+}) {
 	const [newTasks, setNewTasks]: any = useState();
 	const [inProgressTasks, setInProgressTasks]: any = useState();
 	const [doneTasks, setDoneTasks]: any = useState();
 	const [masterList, setMasterList]: any = useState();
 	const [tags, setTags] = useState<string[]>([]);
+	const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
 	useEffect(() => {
 		separateTaskByStatus(tasks);
@@ -150,6 +160,22 @@ export function BoardComponent({ tasks }: { tasks: ITask[] }) {
 		}
 	}
 
+	function createTask() {
+		setModalOpen((isOpen) => !isOpen);
+	}
+
+	function addTask(task: ITask) {
+		const updatedTask: ITask = {
+			...task,
+			project_id: projectId,
+		};
+		const updatedList = [...masterList, updatedTask];
+		setMasterList(updatedList);
+		separateTaskByStatus(updatedList);
+		console.log(updatedTask);
+		setModalOpen((isOpen) => !isOpen);
+	}
+
 	return (
 		<div>
 			<FilterComponent
@@ -175,6 +201,23 @@ export function BoardComponent({ tasks }: { tasks: ITask[] }) {
 					key={3}
 					tasks={doneTasks}
 					updateTaskStatus={updateTaskStatus}
+				/>
+			</section>
+			<section>
+				<FloatButton
+					icon={<PlusOutlined />}
+					onClick={createTask}
+				></FloatButton>
+			</section>
+			<section>
+				<TaskDetailsModalComponent
+					users={mockProjectDetails.users}
+					isModalOpen={isModalOpen}
+					handleCancel={() => {
+						setModalOpen((isOpen) => !isOpen);
+						console.log("cancel");
+					}}
+					handleOk={addTask}
 				/>
 			</section>
 		</div>

@@ -1,7 +1,5 @@
-import { FloatButton } from "antd";
 import { TaskComponent } from "../task/task";
 import "./status.css";
-import { PlusOutlined } from "@ant-design/icons";
 import { ITask } from "../../../models/models";
 import { DragEvent, useRef } from "react";
 
@@ -16,7 +14,6 @@ export function StatusColumnComponent({
 }) {
 	const columnRef = useRef<HTMLDivElement>(null);
 	const tasksListRef = useRef<HTMLDivElement>(null);
-	function createTask() {}
 	function handleDragEnter(e: any) {
 		if (columnRef && columnRef.current) {
 			columnRef.current.style.opacity = "0.2";
@@ -60,10 +57,6 @@ export function StatusColumnComponent({
 					  ))
 					: ""}
 			</div>
-			<FloatButton
-				icon={<PlusOutlined />}
-				onClick={createTask}
-			></FloatButton>
 		</div>
 	);
 }

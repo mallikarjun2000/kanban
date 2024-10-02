@@ -20,7 +20,12 @@ export function ProjectComponent() {
 				<Routes>
 					<Route
 						path='/'
-						Component={() => <BoardComponent tasks={tasks} />}
+						Component={() => (
+							<BoardComponent
+								tasks={tasks}
+								projectId={mockProjectDetails.project_id}
+							/>
+						)}
 					/>
 				</Routes>
 			</BrowserRouter>
