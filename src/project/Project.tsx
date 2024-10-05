@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HashRouter, Route, Routes } from "react-router-dom";
 import { BoardComponent } from "./board/board";
 import { ProjectDetails } from "./ProjectDetails";
 import { mockProjectDetails } from "../utils/project.utils";
@@ -15,11 +15,11 @@ export function ProjectComponent() {
 
 	return (
 		<>
-			<BrowserRouter>
+			<HashRouter>
 				<ProjectDetails project={project} />
 				<Routes>
 					<Route
-						path='/'
+						path='*'
 						Component={() => (
 							<BoardComponent
 								tasks={tasks}
@@ -28,7 +28,7 @@ export function ProjectComponent() {
 						)}
 					/>
 				</Routes>
-			</BrowserRouter>
+			</HashRouter>
 		</>
 	);
 }

@@ -22,6 +22,7 @@ export const mockTasks: ITask[] = [
 	{
 		task_number: 445341,
 		title: "To start with implementation",
+		description: "Start working on the task details and implementation",
 		assigned_to: {
 			user_email: "Jessy.pinkman@gmail.com",
 			user_name: "Jessy pinkman",
@@ -37,6 +38,8 @@ export const mockTasks: ITask[] = [
 	{
 		task_number: 445342,
 		title: "To work on Analysis",
+		description:
+			"Create an R&D ticket on how to implement the tickets and create a small poc.",
 		assigned_to: {
 			user_email: "John.Doe@gmail.com",
 			user_name: "John Doe",
@@ -52,6 +55,7 @@ export const mockTasks: ITask[] = [
 	{
 		task_number: 445343,
 		title: "Set up initial Project and folders",
+		description: "Setup initial folder, details and update it.",
 		assigned_to: {
 			user_email: "michael.klark@gmail.com",
 			user_name: "Michael Klark",

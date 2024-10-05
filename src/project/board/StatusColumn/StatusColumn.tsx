@@ -7,10 +7,12 @@ export function StatusColumnComponent({
 	status,
 	tasks,
 	updateTaskStatus,
+	openEditDetails,
 }: {
 	status: string;
 	tasks: ITask[];
 	updateTaskStatus: Function;
+	openEditDetails: Function;
 }) {
 	const columnRef = useRef<HTMLDivElement>(null);
 	const tasksListRef = useRef<HTMLDivElement>(null);
@@ -51,6 +53,7 @@ export function StatusColumnComponent({
 				{tasks?.length
 					? tasks.map((task: ITask) => (
 							<TaskComponent
+								openEditDetails={openEditDetails}
 								key={task?.task_number}
 								task={task}
 							/>

@@ -21,6 +21,9 @@ export function BoardComponent({
 	const [masterList, setMasterList]: any = useState();
 	const [tags, setTags] = useState<string[]>([]);
 	const [isModalOpen, setModalOpen] = useState<boolean>(false);
+	const [selectedTask, setSelectedTaskToEdit] = useState<ITask | undefined>(
+		undefined
+	);
 
 	useEffect(() => {
 		separateTaskByStatus(tasks);
@@ -31,10 +34,6 @@ export function BoardComponent({
 		});
 		setTags(Array.from(tagsSet));
 	}, []);
-
-	useEffect(() => {
-		console.log(newTasks, inProgressTasks, doneTasks, tags, "re-rendered");
-	});
 
 	function separateTaskByStatus(list: any) {
 		if (list?.length) {
@@ -140,7 +139,6 @@ export function BoardComponent({
 	// --------------------------- SECTION TO BE INVESTIGATED -----------------------------//
 
 	function updateTaskStatus(taskID: number, status: string) {
-		console.log(taskID, status);
 		const selectedTask: ITask = masterList.filter(
 			(task: ITask) => task.task_number === taskID
 		);
@@ -161,6 +159,7 @@ export function BoardComponent({
 	}
 
 	function createTask() {
+		setSelectedTaskToEdit(undefined);
 		setModalOpen((isOpen) => !isOpen);
 	}
 
@@ -172,7 +171,29 @@ export function BoardComponent({
 		const updatedList = [...masterList, updatedTask];
 		setMasterList(updatedList);
 		separateTaskByStatus(updatedList);
-		console.log(updatedTask);
+		setModalOpen((isOpen) => !isOpen);
+	}
+
+	function editAndSaveTask(task: ITask) {
+		const updatedList = masterList.map((curr: ITask) =>
+			curr.task_number === task.task_number ? task : curr
+		);
+		setMasterList(updatedList);
+		separateTaskByStatus(updatedList);
+		setModalOpen((isOpen) => !isOpen);
+	}
+
+	function handleSave(task: ITask) {
+		if (selectedTask && Object.keys(selectedTask as ITask).length) {
+			// edit
+			editAndSaveTask(task);
+		} else {
+			addTask(task);
+		}
+	}
+
+	function onClickEdit(task: ITask) {
+		setSelectedTaskToEdit(task);
 		setModalOpen((isOpen) => !isOpen);
 	}
 
@@ -185,18 +206,21 @@ export function BoardComponent({
 			/>
 			<section className='board-view'>
 				<StatusColumnComponent
+					openEditDetails={onClickEdit}
 					status={TASK_BOARD.NEW}
 					key={1}
 					tasks={newTasks}
 					updateTaskStatus={updateTaskStatus}
 				/>
 				<StatusColumnComponent
+					openEditDetails={onClickEdit}
 					status={TASK_BOARD.IN_PROGRESS}
 					key={2}
 					tasks={inProgressTasks}
 					updateTaskStatus={updateTaskStatus}
 				/>
 				<StatusColumnComponent
+					openEditDetails={onClickEdit}
 					status={TASK_BOARD.DONE}
 					key={3}
 					tasks={doneTasks}
@@ -215,9 +239,9 @@ export function BoardComponent({
 					isModalOpen={isModalOpen}
 					handleCancel={() => {
 						setModalOpen((isOpen) => !isOpen);
-						console.log("cancel");
 					}}
-					handleOk={addTask}
+					handleOk={handleSave}
+					task={{ ...selectedTask } as any}
 				/>
 			</section>
 		</div>

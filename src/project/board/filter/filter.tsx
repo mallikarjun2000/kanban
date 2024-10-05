@@ -20,7 +20,6 @@ export function FilterComponent({
 	updateFilterBy: Function;
 }) {
 	function handleChange(event: any, name: string) {
-		console.log(event, name, "changed");
 		updateFilterBy(event, name);
 	}
 

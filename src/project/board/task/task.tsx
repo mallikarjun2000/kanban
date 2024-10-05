@@ -2,8 +2,15 @@ import { useRef } from "react";
 import { ITask } from "../../../models/models";
 import "./task.css";
 import { Tag, Card, Avatar } from "antd";
+import Link from "antd/es/typography/Link";
 
-export function TaskComponent({ task }: { task: ITask }) {
+export function TaskComponent({
+	task,
+	openEditDetails,
+}: {
+	task: ITask;
+	openEditDetails: Function;
+}) {
 	const taskRef = useRef<HTMLDivElement>(null);
 	function handleDragStart(e: any) {
 		if (taskRef && taskRef.current) {
@@ -28,10 +35,12 @@ export function TaskComponent({ task }: { task: ITask }) {
 			ref={taskRef}
 		>
 			<div className='task-title'>
-				<span>
-					{" "}
-					#{task?.task_number} {task?.title}
-				</span>
+				<Link href='#' onClick={(e) => openEditDetails(task)}>
+					<span>
+						{" "}
+						#{task?.task_number} {task?.title}
+					</span>
+				</Link>
 			</div>
 			<div>
 				<Avatar style={{ backgroundColor: "#f56a00" }} size={16}>
