@@ -1,5 +1,7 @@
 import { IProject, ITask, IUser, TASK_BOARD } from "../models/models";
 
+export const BASE_URL = process.env.BASE_URL || "http://localhost:3000/project";
+
 export const mockUsers: IUser[] = [
 	{
 		user_email: "john.doe@gmail.com",
@@ -76,6 +78,14 @@ export const mockProjectDetails = {
 	users: mockUsers,
 	creation_date: "11/20/2024",
 	tasks: mockTasks,
+};
+
+export const mockEmptyProjectDetails = {
+	project_name: "",
+	project_id: "",
+	users: [],
+	creation_date: "",
+	tasks: [],
 };
 
 export const mockProjectDetails$ = new Promise<IProject>((resolve, reject) => {

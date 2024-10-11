@@ -8,7 +8,8 @@ import { FloatButton } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { TaskDetailsModalComponent } from "./taskDetailsModal/task-details-modal";
 import { useDispatch } from "react-redux";
-import { addTask, editTask, updateTaskStatus } from "../../redux/project-slice";
+import { addTask, editTask } from "../../redux/project-slice";
+import { asyncUpdateTaskStatus } from "../../redux/project-thunk";
 
 export function BoardComponent({
 	tasks,
@@ -17,7 +18,7 @@ export function BoardComponent({
 	tasks: ITask[];
 	projectId: string;
 }) {
-	const dispatch = useDispatch();
+	const dispatch = useDispatch<any>();
 	const [newTasks, setNewTasks]: any = useState();
 	const [inProgressTasks, setInProgressTasks]: any = useState();
 	const [doneTasks, setDoneTasks]: any = useState();
@@ -141,7 +142,7 @@ export function BoardComponent({
 
 	function handleUpdateTaskStatue(taskID: number, status: string) {
 		dispatch(
-			updateTaskStatus({
+			asyncUpdateTaskStatus({
 				task_number: taskID,
 				status,
 			})

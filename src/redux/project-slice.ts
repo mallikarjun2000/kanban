@@ -1,16 +1,27 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { mockProjectDetails } from "../utils/project.utils";
-import { ITask } from "../models/models";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { mockEmptyProjectDetails } from "../utils/project.utils";
+import { IProject, ITask } from "../models/models";
+import { asyncGetProjectDetails, asyncUpdateTaskStatus } from "./project-thunk";
+
+interface IProjectInitialState {
+	projectDetailsLoading: boolean;
+	projectDetails: IProject;
+}
+
+const initialState: IProjectInitialState = {
+	projectDetailsLoading: true,
+	projectDetails: mockEmptyProjectDetails,
+};
 
 export const projectDetailsSlice = createSlice({
 	name: "projectDetails",
-	initialState: {
-		ProjectDetailsLoading: false,
-		projectDetails: mockProjectDetails,
-	},
+	initialState,
 	reducers: {
 		getTasks: (state) => state,
-		updateTaskStatus: (state, action) => {
+		updateTaskStatus: (
+			state: any,
+			action: PayloadAction<{ task_number: number; status: boolean }>
+		) => {
 			const { task_number, status } = action.payload;
 			const updatedTasks: ITask[] = state.projectDetails.tasks.map(
 				(task: ITask) =>
@@ -21,9 +32,10 @@ export const projectDetailsSlice = createSlice({
 						  }
 						: task
 			);
-			state.projectDetails.tasks = updatedTasks;
+			if (state && state?.projectDetails)
+				state.projectDetails.tasks = updatedTasks;
 		},
-		addTask: (state, action) => {
+		addTask: (state, action: PayloadAction<ITask>) => {
 			state.projectDetails.tasks.push(action.payload);
 		},
 		editTask: (state, action) => {
@@ -34,6 +46,14 @@ export const projectDetailsSlice = createSlice({
 						: task
 			);
 		},
+	},
+	extraReducers: (builder) => {
+		builder
+			.addCase(asyncUpdateTaskStatus.fulfilled, (state, action) => {})
+			.addCase(asyncGetProjectDetails.fulfilled, (state, action: any) => {
+				state.projectDetails = action.payload;
+				state.projectDetailsLoading = false;
+			});
 	},
 });
 
