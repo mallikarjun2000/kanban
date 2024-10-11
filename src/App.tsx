@@ -1,5 +1,7 @@
+import { Provider } from "react-redux";
 import "./App.css";
 import { ProjectComponent } from "./project/Project";
+import store from "./redux/project.store";
 
 /**
  * Kanban board
@@ -47,9 +49,11 @@ import { ProjectComponent } from "./project/Project";
 
 function App() {
 	return (
-		<div className='App'>
-			<ProjectComponent />
-		</div>
+		<Provider store={store}>
+			<div className='App'>
+				<ProjectComponent />
+			</div>
+		</Provider>
 	);
 }
 

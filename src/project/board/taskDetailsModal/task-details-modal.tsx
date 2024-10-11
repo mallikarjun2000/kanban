@@ -17,7 +17,7 @@ const emptyForm: ITask = {
 	},
 	task_number: getRandomNumber(),
 	tags: [],
-	created_time: new Date(),
+	created_time: "11/10/2024",
 	priority: 3,
 	project_id: "45",
 	status: TASK_BOARD.NEW,

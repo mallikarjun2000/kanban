@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { FloatButton } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import { TaskDetailsModalComponent } from "./taskDetailsModal/task-details-modal";
+import { useDispatch } from "react-redux";
+import { addTask, editTask, updateTaskStatus } from "../../redux/project-slice";
 
 export function BoardComponent({
 	tasks,
@@ -15,10 +17,10 @@ export function BoardComponent({
 	tasks: ITask[];
 	projectId: string;
 }) {
+	const dispatch = useDispatch();
 	const [newTasks, setNewTasks]: any = useState();
 	const [inProgressTasks, setInProgressTasks]: any = useState();
 	const [doneTasks, setDoneTasks]: any = useState();
-	const [masterList, setMasterList]: any = useState();
 	const [tags, setTags] = useState<string[]>([]);
 	const [isModalOpen, setModalOpen] = useState<boolean>(false);
 	const [selectedTask, setSelectedTaskToEdit] = useState<ITask | undefined>(
@@ -27,7 +29,6 @@ export function BoardComponent({
 
 	useEffect(() => {
 		separateTaskByStatus(tasks);
-		setMasterList(tasks);
 		const tagsSet = new Set<string>();
 		tasks?.forEach((task) => {
 			task?.tags?.forEach((tag) => tagsSet.add(tag));
@@ -138,24 +139,13 @@ export function BoardComponent({
 
 	// --------------------------- SECTION TO BE INVESTIGATED -----------------------------//
 
-	function updateTaskStatus(taskID: number, status: string) {
-		const selectedTask: ITask = masterList.filter(
-			(task: ITask) => task.task_number === taskID
+	function handleUpdateTaskStatue(taskID: number, status: string) {
+		dispatch(
+			updateTaskStatus({
+				task_number: taskID,
+				status,
+			})
 		);
-		if (selectedTask.status !== status) {
-			const list: ITask[] = masterList.map((task: ITask) =>
-				task.task_number === taskID
-					? {
-							...task,
-							status,
-					  }
-					: {
-							...task,
-					  }
-			);
-			setMasterList(list);
-			separateTaskByStatus(list);
-		}
 	}
 
 	function createTask() {
@@ -163,33 +153,18 @@ export function BoardComponent({
 		setModalOpen((isOpen) => !isOpen);
 	}
 
-	function addTask(task: ITask) {
-		const updatedTask: ITask = {
-			...task,
-			project_id: projectId,
-		};
-		const updatedList = [...masterList, updatedTask];
-		setMasterList(updatedList);
-		separateTaskByStatus(updatedList);
-		setModalOpen((isOpen) => !isOpen);
-	}
-
-	function editAndSaveTask(task: ITask) {
-		const updatedList = masterList.map((curr: ITask) =>
-			curr.task_number === task.task_number ? task : curr
-		);
-		setMasterList(updatedList);
-		separateTaskByStatus(updatedList);
-		setModalOpen((isOpen) => !isOpen);
-	}
-
 	function handleSave(task: ITask) {
 		if (selectedTask && Object.keys(selectedTask as ITask).length) {
-			// edit
-			editAndSaveTask(task);
+			dispatch(editTask(task));
 		} else {
-			addTask(task);
+			dispatch(
+				addTask({
+					...task,
+					project_id: projectId,
+				})
+			);
 		}
+		setModalOpen((isOpen) => !isOpen);
 	}
 
 	function onClickEdit(task: ITask) {
@@ -210,21 +185,21 @@ export function BoardComponent({
 					status={TASK_BOARD.NEW}
 					key={1}
 					tasks={newTasks}
-					updateTaskStatus={updateTaskStatus}
+					updateTaskStatus={handleUpdateTaskStatue}
 				/>
 				<StatusColumnComponent
 					openEditDetails={onClickEdit}
 					status={TASK_BOARD.IN_PROGRESS}
 					key={2}
 					tasks={inProgressTasks}
-					updateTaskStatus={updateTaskStatus}
+					updateTaskStatus={handleUpdateTaskStatue}
 				/>
 				<StatusColumnComponent
 					openEditDetails={onClickEdit}
 					status={TASK_BOARD.DONE}
 					key={3}
 					tasks={doneTasks}
-					updateTaskStatus={updateTaskStatus}
+					updateTaskStatus={handleUpdateTaskStatue}
 				/>
 			</section>
 			<section>

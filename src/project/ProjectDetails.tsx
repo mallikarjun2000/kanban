@@ -15,8 +15,7 @@ export function ProjectDetails({ project }: { project: IProject }) {
 				<strong>Project ID</strong>: {project.project_id}
 			</span>
 			<span>
-				<strong>Created on</strong>:{" "}
-				{project.creation_date?.toDateString()}
+				<strong>Created on</strong>: {project.creation_date}
 			</span>
 		</Card>
 	);

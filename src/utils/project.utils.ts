@@ -28,7 +28,7 @@ export const mockTasks: ITask[] = [
 			user_name: "Jessy pinkman",
 			user_id: 123,
 		},
-		created_time: new Date(),
+		created_time: "11/20/2024",
 		priority: 1,
 		project_id: "foodx23411",
 		status: TASK_BOARD.NEW,
@@ -45,7 +45,7 @@ export const mockTasks: ITask[] = [
 			user_name: "John Doe",
 			user_id: 123,
 		},
-		created_time: new Date(),
+		created_time: "11/20/2024",
 		priority: 1,
 		project_id: "foodx23411",
 		status: TASK_BOARD.IN_PROGRESS,
@@ -61,7 +61,7 @@ export const mockTasks: ITask[] = [
 			user_name: "Michael Klark",
 			user_id: 123,
 		},
-		created_time: new Date(),
+		created_time: "11/20/2024",
 		priority: 1,
 		project_id: "foodx23411",
 		status: TASK_BOARD.DONE,
@@ -74,7 +74,7 @@ export const mockProjectDetails = {
 	project_name: "Kanban Board",
 	project_id: "452112",
 	users: mockUsers,
-	creation_date: new Date(),
+	creation_date: "11/20/2024",
 	tasks: mockTasks,
 };
 
@@ -84,7 +84,7 @@ export const mockProjectDetails$ = new Promise<IProject>((resolve, reject) => {
 			project_name: "Kanban Board",
 			project_id: "452112",
 			users: mockUsers,
-			creation_date: new Date(),
+			creation_date: "11/20/2024",
 			tasks: mockTasks,
 		} as IProject);
 	});
