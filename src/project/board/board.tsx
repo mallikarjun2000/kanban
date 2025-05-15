@@ -35,6 +35,7 @@ export function BoardComponent({
 			task?.tags?.forEach((tag) => tagsSet.add(tag));
 		});
 		setTags(Array.from(tagsSet));
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	function separateTaskByStatus(list: any) {

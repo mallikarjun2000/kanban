@@ -20,6 +20,7 @@ export function ProjectComponent() {
 
 	useEffect(() => {
 		dispatch(asyncGetProjectDetails());
+		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, []);
 
 	useEffect(() => {
